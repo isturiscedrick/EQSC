@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { animate, createScope } from 'animejs'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { ArrowRight, ShieldCheck, Shield, Users, Building2, Award, CheckCircle2, Menu, X, MapPin, Phone, Mail, Clock3, ChevronRight, BadgeCheck, CarFront, ClipboardCheck, Target, Eye, HeartHandshake } from 'lucide-react'
@@ -22,7 +22,7 @@ function Header() {
   return <><div className="topbar"><div className="container topbar-inner"><span><MapPin size={14}/> Commonwealth Ave., Quezon City, Philippines</span><a href="mailto:info@starmatrixsecurity.com"><Mail size={14}/> Get in touch with our team</a></div></div><header className="header"><div className="container nav-wrap"><Logo/><button className="menu-toggle" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button><nav className={open?'nav nav-open':'nav'}>{links.map(([label,path])=><NavLink key={path} to={path} onClick={close} className={({isActive})=>isActive?'nav-link active':'nav-link'} end={path==='/'}>{label}</NavLink>)}<Link className="nav-cta" to="/contact" onClick={close}>Request a proposal <ArrowRight size={16}/></Link></nav></div></header>{location.pathname!=='/'&&<div className="route-line"/>}</>
 }
 function Footer() { return <footer className="footer"><div className="container footer-grid"><div><Logo light/><p className="footer-about">Committed to excellent performance, dependable security personnel, and client satisfaction nationwide.</p><span className="iso"><BadgeCheck size={16}/> ISO 9001:2015 Certified</span></div><div><h4>Explore</h4><Link to="/about">About Starmatrix</Link><Link to="/services">Security services</Link><Link to="/clients">Our clients</Link><Link to="/careers">Personnel qualifications</Link></div><div><h4>Contact information</h4><p><MapPin size={17}/> Block 1 Lot 18 Commonwealth Ave., Jordan Plains III, Brgy. Pasong Putik Proper, Novaliches, Quezon City.</p><a href="mailto:info@starmatrixsecurity.com"><Mail size={17}/> Email our team</a><p><Clock3 size={17}/> Nationwide security services</p></div></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} Starmatrix Security Agency Inc.</span><span>Quality service. Trusted protection.</span></div></footer> }
-function PageIntro({eyebrow,title,desc}:{eyebrow:string,title:string,desc:string}) { return <section className="page-intro"><div className="container"><div className="eyebrow"><span/>{eyebrow}</div><h1>{title}</h1><p>{desc}</p></div></section> }
+function PageIntro({eyebrow,title,desc}:{eyebrow:string,title:ReactNode,desc:string}) { return <section className="page-intro"><div className="container"><div className="eyebrow"><span/>{eyebrow}</div><h1>{title}</h1><p>{desc}</p></div></section> }
 function Home() {
   const animationRoot = useRef<HTMLElement | null>(null)
 
@@ -33,7 +33,7 @@ function Home() {
       animate('.hero-copy > *', {
         opacity: [0, 1],
         translateY: [18, 0],
-        delay: (_, index) => index * 90,
+        delay: (_, index = 0) => index * 90,
         duration: 650,
         ease: 'out(3)',
       })
