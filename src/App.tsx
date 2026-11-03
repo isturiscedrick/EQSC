@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { ArrowRight, ShieldCheck, Shield, Users, Building2, Award, CheckCircle2, Menu, X, MapPin, Phone, Mail, Clock3, ChevronRight, BadgeCheck, Siren, CarFront, ClipboardCheck, Target, Eye, HeartHandshake } from 'lucide-react'
+import { ArrowRight, ShieldCheck, Shield, Users, Building2, Award, CheckCircle2, Menu, X, MapPin, Phone, Mail, Clock3, ChevronRight, BadgeCheck, CarFront, ClipboardCheck, Target, Eye, HeartHandshake } from 'lucide-react'
 
-const navy = '#18266e'
 const clients = [
   'Doxo Ingredients Inc.', 'Qualiblend San Juan', 'Amber Muntinlupa', 'Amber Las Piñas', 'Amber Makati', 'Amber Mandaluyong', 'Tzu Chi Marikina', 'Tzu Chi Sta. Mesa', 'Tzu Chi Quezon City', 'CMI Building', 'Fastfood Deliserve, Inc.', 'Reedley International School', 'Lamitek Systems Inc.', 'SIMS Industrial Corp.', 'Comworks QC', 'Comworkxavierville', 'Amber Parañaque', 'VSO Global',
   'Tekton Corp.', 'JRS Farm', 'JRS Properties', 'Doxo Sta. Maria', 'Aspire Mediatech', 'Acbel Polytech', 'Monkey Eagle', 'VSO Nakayama', 'VSO Technopark', 'VSO Grandway', 'VSO Southpoint', 'VSO Valerie', 'VSO Sanoh Fulton', 'VSO ESJ Properties', 'One Road Way', 'Amber Bacoor', 'Amber Calamba', 'Amber Dasmariñas', 'Comworks Laguna', 'Chowking', 'Addas Corp.', 'Addio Bldg.', 'Doxo Dasmariñas', 'Heavenly Peace Memorial', 'Santuario Divino Memorial', 'Villa Felicia Subdivision', 'Batangas', 'Quezon', 'Comworks Legaspi', 'Bangko Kabayan Iloilo', 'Bangko Kabayan Cebu', 'Bangko Kabayan Negros Occidental', 'Bangko Kabayan Bohol'
