@@ -33,7 +33,7 @@ function Home() {
       animate('.hero-copy > *', {
         opacity: [0, 1],
         translateY: [18, 0],
-        delay: (_, index = 0) => index * 90,
+        delay: (_: unknown, index: number = 0) => index * 90,
         duration: 650,
         ease: 'out(3)',
       })
