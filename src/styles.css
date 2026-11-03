@@ -3,3 +3,69 @@
 /* Keep the complete original logo visible on smaller screens. */
 @media(max-width:768px){.hero-emblem{width:min(330px,86%);max-width:100%}.hero-emblem img{max-height:330px}.floating-card{top:auto;bottom:8px;left:0;transform:translateY(25%);min-width:0;max-width:calc(100% - 12px)}.hero-visual{min-height:390px;padding-bottom:25px}.visual-caption{right:0;bottom:-8px;font-size:7px;letter-spacing:1px}}
 @media(max-width:390px){.hero-emblem{width:min(285px,82%)}.hero-emblem img{max-height:285px}.hero-visual{min-height:340px}.floating-card{padding:10px;gap:8px}.floating-icon{width:36px;height:36px}.floating-card strong{font-size:11px}.floating-card small{font-size:9px}}
+
+
+/* Readable, balanced typography at 100% browser zoom */
+html{font-size:16px}
+body{font-size:1rem;line-height:1.6}
+.topbar{font-size:.8125rem}
+.brand strong{font-size:1.25rem}
+.brand small{font-size:.6875rem;letter-spacing:.12em}
+.nav{gap:clamp(16px,1.65vw,27px)}
+.nav-link,.nav-cta,.button{font-size:.9375rem}
+.nav-cta,.button{min-height:46px}
+.hero h1{font-size:clamp(2.65rem,3.55vw,4rem);line-height:1.12;letter-spacing:-.035em}
+.page-intro h1{font-size:clamp(2.5rem,3.4vw,3.5rem);line-height:1.15;letter-spacing:-.03em}
+.hero-copy>p{font-size:1.125rem;line-height:1.75;max-width:38rem}
+.hero-proof{font-size:.875rem;gap:20px}
+.eyebrow{font-size:.75rem;letter-spacing:.16em}
+.trust-grid b{font-size:.9375rem}
+.trust-grid small{font-size:.8125rem;line-height:1.45}
+.section h2,.about-copy h2,.contact-info h2{font-size:clamp(2rem,2.7vw,2.75rem);line-height:1.2}
+.section-heading>p{font-size:1rem;line-height:1.75;max-width:36rem}
+.value-card{padding:30px}
+.value-card h3{font-size:1.25rem}
+.value-card p{font-size:1rem;line-height:1.75;min-height:0}
+.text-link{font-size:.9375rem}
+.feature-copy h2,.contact-banner h2{font-size:clamp(2.1rem,3vw,2.9rem);line-height:1.18}
+.feature-copy>p,.contact-banner p{font-size:1rem;line-height:1.75}
+.client-chips span{font-size:.875rem}
+.footer-about{font-size:.9375rem;line-height:1.75}
+.footer-grid a:not(.brand),.footer-grid p:not(.footer-about){font-size:.875rem;line-height:1.65}
+.footer h4{font-size:1rem}
+.footer-bottom{font-size:.8125rem}
+.page-intro p{font-size:1.0625rem;line-height:1.8}
+.about-copy>p{font-size:1rem;line-height:1.8}
+.iso-card b{font-size:.9375rem}
+.iso-card small,.mini-stats span{font-size:.8125rem}
+.mini-stats strong{font-size:1.125rem}
+.affiliate-grid b{font-size:.9375rem}
+.affiliate-grid>div>span{font-size:.8125rem}
+.service-main h2{font-size:2rem}
+.service-main>p,.service-aside>p{font-size:1rem;line-height:1.8}
+.service-points div{font-size:.9375rem;line-height:1.6}
+.service-aside h3{font-size:1.625rem}
+.aside-item b{font-size:.9375rem}
+.aside-item small{font-size:.875rem;line-height:1.65}
+.resource-grid h3{font-size:1.25rem}
+.floating-card strong{font-size:.9375rem}
+.floating-card small{font-size:.8125rem}
+.visual-caption{font-size:.6875rem;letter-spacing:.12em}
+.hero-bottom-inner{font-size:.75rem}
+@media(max-width:900px){
+  .nav{gap:14px}
+  .nav-link,.nav-cta{font-size:.875rem}
+  .hero h1{font-size:clamp(2.45rem,5vw,3.5rem)}
+  .section{padding:76px 0}
+}
+@media(max-width:640px){
+  body{font-size:1rem}
+  .container{width:min(100% - 36px,1160px)}
+  .hero h1,.page-intro h1{font-size:clamp(2.25rem,9vw,3rem);letter-spacing:-.025em}
+  .hero-copy>p,.page-intro p,.about-copy>p,.section-heading>p,.value-card p,.service-main>p,.service-aside>p,.feature-copy>p,.contact-banner p{font-size:1rem;line-height:1.7}
+  .trust-grid b{font-size:.875rem}
+  .trust-grid small{font-size:.75rem}
+  .value-card h3,.resource-grid h3{font-size:1.125rem}
+  .nav-link,.nav-cta,.button{font-size:.875rem}
+  .footer-bottom{font-size:.75rem;gap:12px;flex-wrap:wrap}
+}
