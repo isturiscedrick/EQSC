@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { animate as animeAnimate, onScroll, stagger } from 'animejs'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { ArrowRight, ShieldCheck, Shield, Users, Building2, Award, CheckCircle2, Menu, X, MapPin, Clock3, ChevronRight, BadgeCheck, CarFront, ClipboardCheck, Target, Eye, HeartHandshake } from 'lucide-react'
 
@@ -45,13 +46,28 @@ export default function App() {
       const media = gsap.matchMedia()
 
       media.add('(prefers-reduced-motion: no-preference)', () => {
+        const hero = root.querySelector<HTMLElement>('.hero')
         const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
-        if (document.querySelector('.hero')) {
+        if (hero) {
           heroTimeline
             .from('.hero-copy > *', { autoAlpha: 0, y: 28, duration: 0.75, stagger: 0.12 })
             .from('.hero-emblem', { autoAlpha: 0, scale: 0.9, y: 22, duration: 1 }, '-=0.55')
-            .from('.floating-card', { autoAlpha: 0, x: -24, duration: 0.55 }, '-=0.45')
             .from('.hero-bottom-inner > *', { autoAlpha: 0, y: 12, duration: 0.45, stagger: 0.12 }, '-=0.25')
+
+          // The seal responds to the visitor's scroll without hijacking native scrolling.
+          gsap.timeline({
+            scrollTrigger: {
+              trigger: hero,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 1,
+              invalidateOnRefresh: true,
+            },
+          })
+            .to('.hero-emblem', { y: -42, scale: 0.82, rotate: -2, ease: 'none' }, 0)
+            .to('.orbit-one', { scale: 1.12, rotate: 24, opacity: 0.5, ease: 'none' }, 0)
+            .to('.orbit-two', { scale: 0.92, rotate: -18, opacity: 0.25, ease: 'none' }, 0)
+            .to('.visual-caption', { y: -22, autoAlpha: 0.35, ease: 'none' }, 0)
         }
 
         const revealGroups = [
@@ -83,18 +99,25 @@ export default function App() {
           })
         })
 
-        gsap.utils.toArray<HTMLElement>('.trust-grid > div', root).forEach((element, index) => {
-          gsap.from(element, {
-            autoAlpha: 0,
-            y: 18,
-            duration: 0.55,
-            delay: index * 0.06,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: '.trust-grid', start: 'top 90%', once: true },
-          })
-        })
+        // Anime.js handles the trust-strip stagger; GSAP owns the page and logo timelines.
+        const trustItems = root.querySelectorAll<HTMLElement>('.trust-grid > div')
+        const trustAnimation = trustItems.length
+          ? animeAnimate(trustItems, {
+              opacity: [0, 1],
+              translateY: [22, 0],
+              delay: stagger(95),
+              duration: 680,
+              ease: 'out(3)',
+              autoplay: onScroll({
+                target: root.querySelector('.trust-strip') as HTMLElement,
+                enter: 'top 88%',
+                leave: 'bottom 12%',
+                sync: false,
+              }),
+            })
+          : null
 
-        const featureArt = mainRef.current?.querySelector('.feature-shield')
+        const featureArt = root.querySelector('.feature-shield')
         if (featureArt) {
           gsap.to(featureArt, {
             y: -12,
@@ -110,6 +133,7 @@ export default function App() {
         }
 
         ScrollTrigger.refresh()
+        return () => trustAnimation?.pause()
       })
 
       return () => media.revert()
