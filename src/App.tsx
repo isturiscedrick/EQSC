@@ -3,9 +3,17 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { animate as animeAnimate, onScroll, stagger } from 'animejs'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { ArrowRight, ShieldCheck, Shield, Users, Building2, Award, CheckCircle2, Menu, X, MapPin, Clock3, ChevronRight, BadgeCheck, CarFront, ClipboardCheck, Target, Eye, HeartHandshake } from 'lucide-react'
+import { ArrowRight, ShieldCheck, Shield, Users, Building2, Award, CheckCircle2, Menu, X, MapPin, Phone, Mail, Clock3, Globe, ChevronRight, BadgeCheck, CarFront, ClipboardCheck, Target, Eye, HeartHandshake } from 'lucide-react'
+import { CONTACT, getDirectionsUrl } from './data/contact'
 
 const affiliates = ['Fast Deli Serv, Inc.', 'EQI Delivery Serve, Incorporated', 'E-Mobile Matrix Logistics Corporation', 'Excel Quality Integrated Solutions, Inc.', 'Stock Care Cargo and Warehousing, Incorporated', 'Tektonix Manufacturing Corporation', 'Excel Quality Services Corporation', 'E-Tektonix Services Corporation', 'Jose R. Simeon Agri Farm Corporation', 'Apollo Egg Science Tech. Corporation', 'JRS Farm Fresh Market Inc.', 'Consolidated Matrix Inc.', 'Rapidoo.ph Inc.']
+const PAGE_META: Record<string, { title: string; description: string }> = {
+  '/': { title: 'Starmatrix Security Agency Inc. | Security You Can Trust', description: 'Professional security services and trained security personnel, committed to quality service and client satisfaction nationwide.' },
+  '/about': { title: 'About Us | Starmatrix Security Agency Inc.', description: 'Learn about Starmatrix Security Agency Inc., its background, values, training, and affiliated companies.' },
+  '/services': { title: 'Security Services | Starmatrix Security Agency Inc.', description: 'Explore Starmatrix posted and premises guard services, personnel training, screening, and operational resources.' },
+  '/careers': { title: 'Careers | Starmatrix Security Agency Inc.', description: 'Review the listed qualifications for Security Officer, Security Guard, and Security Driver or Escort roles.' },
+  '/contact': { title: 'Contact | Starmatrix Security Agency Inc.', description: 'Find the Starmatrix Security Agency Inc. office address and directions.' },
+}
 const values = [
   { icon: Eye, title: 'Our Vision', text: 'To be the Best Security Agency by providing Excellent Security Services to clients nationwide.' },
   { icon: Target, title: 'Our Mission', text: 'To provide Excellent Performance of Security Services to Client’s Satisfaction and to deploy Quality Security Personnel.' },
@@ -19,15 +27,315 @@ function Header() {
   const links = [['Home','/'],['About Us','/about'],['Services','/services'],['Careers','/careers'],['Contact','/contact']]
   return <><header className="header"><div className="container nav-wrap"><Logo/><button className="menu-toggle" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button><nav className={open?'nav nav-open':'nav'}>{links.map(([label,path])=><NavLink key={path} to={path} onClick={close} className={({isActive})=>isActive?'nav-link active':'nav-link'} end={path==='/'}>{label}</NavLink>)}</nav></div></header>{location.pathname!=='/'&&<div className="route-line"/>}</>
 }
-function Footer() { return <footer className="footer"><div className="container footer-grid"><div><Logo light/><p className="footer-about">Committed to excellent performance, dependable security personnel, and client satisfaction nationwide.</p><span className="iso"><BadgeCheck size={16}/> ISO 9001:2015 Certified</span></div><div><h4>Explore</h4><Link to="/about">About Starmatrix</Link><Link to="/services">Security services</Link><Link to="/careers">Personnel qualifications</Link></div><div><h4>Contact information</h4><p><MapPin size={17}/> Block 1 Lot 18 Commonwealth Ave., Jordan Plains III, Brgy. Pasong Putik Proper, Novaliches, Quezon City.</p><p><Clock3 size={17}/> Nationwide security services</p><Link to="/contact">View contact details <ArrowRight size={15}/></Link></div></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} Starmatrix Security Agency Inc.</span><span>Quality service. Trusted protection.</span></div></footer> }
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="container footer-grid">
+        <div>
+          <Logo light />
+          <p className="footer-about">Committed to excellent performance, dependable security personnel, and client satisfaction nationwide.</p>
+          <span className="iso"><BadgeCheck size={16} /> ISO 9001:2015 Certified</span>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <Link to="/about">About Starmatrix</Link>
+          <Link to="/services">Security services</Link>
+          <Link to="/careers">Personnel qualifications</Link>
+        </div>
+        <div>
+          <h4>Contact information</h4>
+          <p><MapPin size={17} /> {CONTACT.address}</p>
+          <p><Globe size={17} /> Nationwide security services</p>
+          {CONTACT.phone && <a href={`tel:${CONTACT.phone}`}><Phone size={16} /> {CONTACT.phone}</a>}
+          {CONTACT.email && <a href={`mailto:${CONTACT.email}`}><Mail size={16} /> {CONTACT.email}</a>}
+          {CONTACT.hours && <p><Clock3 size={17} /> {CONTACT.hours}</p>}
+          <Link to="/contact">View contact details <ArrowRight size={15} /></Link>
+        </div>
+      </div>
+      <div className="container footer-bottom">
+        <span>© {new Date().getFullYear()} Starmatrix Security Agency Inc.</span>
+        <span>Quality service. Trusted protection.</span>
+      </div>
+    </footer>
+  )
+}
 function PageIntro({eyebrow,title,desc}:{eyebrow:string,title:ReactNode,desc:string}) { return <section className="page-intro"><div className="container"><div className="eyebrow"><span/>{eyebrow}</div><h1>{title}</h1><p>{desc}</p></div></section> }
 function Home() {
   return <><section className="hero"><div className="hero-grid"/><div className="container hero-content"><div className="hero-copy"><div className="eyebrow eyebrow-light"><span/> SECURITY YOU CAN TRUST</div><h1>Protection built on <em>trust.</em><br/>Service built on <em>quality.</em></h1><p>Professional security services and properly trained personnel, committed to protecting what matters to you.</p><div className="hero-actions"><Link className="button button-gold" to="/contact">Talk to our team <ArrowRight size={18}/></Link><Link className="button button-outline" to="/about">Discover Starmatrix</Link></div><div className="hero-proof"><span><ShieldCheck/> Client-focused protection</span><span><BadgeCheck/> ISO 9001:2015 certified</span></div></div><div className="hero-visual"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="hero-emblem"><img src="/STARMATRIX%20logo.png" alt="Starmatrix Security Agency emblem"/></div><div className="visual-caption">STRENGTH IN SERVICE <span>•</span> EXCELLENCE IN EVERY DETAIL</div></div></div><div className="hero-bottom"><div className="container hero-bottom-inner"><span>PART OF THE JRS GROUP OF COMPANIES</span><span>Serving clients nationwide <ArrowRight size={16}/></span></div></div></section><section className="trust-strip"><div className="container trust-grid"><div><ShieldCheck/><span><b>Trained personnel</b><small>Skills and service mindset</small></span></div><div><ClipboardCheck/><span><b>Screening process</b><small>Pre-deployment assessment</small></span></div><div><Building2/><span><b>Nationwide service</b><small>Serving diverse industries</small></span></div><div><Award/><span><b>Quality commitment</b><small>ISO 9001:2015 certified</small></span></div></div></section><section className="section"><div className="container"><div className="section-heading"><div><div className="eyebrow"><span/> WHO WE ARE</div><h2>Security is more than a presence.<br/><em>It’s a promise.</em></h2></div><p>Starmatrix Security Agency Inc. is part of the JRS Group of Companies, delivering security services for clients across the Philippines.</p></div><div className="value-grid">{values.map(v=><article className="value-card" key={v.title}><div className="icon-box"><v.icon/></div><h3>{v.title}</h3><p>{v.text}</p><Link to="/about" className="text-link">Learn about us <ArrowRight size={16}/></Link></article>)}</div></div></section><section className="feature-band"><div className="container feature-layout"><div className="feature-art"><div className="feature-shield"><Shield size={92}/><span>SM</span></div><div className="feature-stamp"><BadgeCheck/> SERVICE<br/> EXCELLENCE</div></div><div className="feature-copy"><div className="eyebrow eyebrow-light"><span/> READY WHEN YOU NEED US</div><h2>People prepared.<br/><em>Standards upheld.</em></h2><p>Our security personnel are trained through Matrix Training Center, accredited by SOSIA and TESDA. Personnel also undergo required neuro-psychological, drug, and medical screening before deployment through Wellness Diagnostic Center, accredited by the Department of Health, as described in our company profile.</p><Link className="button button-gold" to="/services">Explore our services <ArrowRight size={18}/></Link></div></div></section><ContactBanner/></> }
-function About() { return <><PageIntro eyebrow="ABOUT STARMATRIX" title={<>A commitment to <em>quality and protection.</em></>} desc="Learn about our purpose, our people, and the standards that guide our security services."/><section className="section"><div className="container about-layout"><div className="about-emblem"><img src="/STARMATRIX%20logo.png" alt="Starmatrix Security Agency emblem"/><div className="iso-card"><BadgeCheck/><span><b>ISO 9001:2015</b><small>Certified</small></span></div></div><div className="about-copy"><div className="eyebrow"><span/> OUR BACKGROUND</div><h2>Part of a wider group.<br/><em>Focused on your safety.</em></h2><p>Starmatrix Security Agency Inc. belongs to and is part of the JRS Group of Companies. The company profile describes it as one of three security agencies within the group and a provider of nationwide security services for businesses in manufacturing, food services, logistics, distribution, and other sectors.</p><p>Our security guards are trained by Matrix Training Center, accredited by SOSIA and TESDA. Pre-deployment screening includes neuro-psychological, drug, and medical assessments through Wellness Diagnostic Center, accredited by the Department of Health.</p><div className="mini-stats"><div><strong>Nationwide</strong><span>Service coverage</span></div><div><strong>Quality-first</strong><span>Service commitment</span></div><div><strong>Screened</strong><span>Before deployment</span></div></div></div></div></section><section className="soft-section"><div className="container"><div className="section-heading"><div><div className="eyebrow"><span/> WHAT GUIDES US</div><h2>Our purpose in <em>every post.</em></h2></div><p>Our vision, mission, and values reflect the standards we aim to bring to every client relationship.</p></div><div className="value-grid">{values.map(v=><article className="value-card" key={v.title}><div className="icon-box"><v.icon/></div><h3>{v.title}</h3><p>{v.text}</p></article>)}</div></div></section><section className="section"><div className="container"><div className="section-heading"><div><div className="eyebrow"><span/> AFFILIATED COMPANIES</div><h2>Connected through <em>JRS Group.</em></h2></div><p>The company profile lists these affiliated companies.</p></div><div className="affiliate-grid">{affiliates.map((a,i)=><div key={a}><span>{String(i+1).padStart(2,'0')}</span><b>{a}</b><ChevronRight size={17}/></div>)}</div></div></section><ContactBanner/></> }
-function Services() { return <><PageIntro eyebrow="OUR SERVICES" title={<>Professional presence.<br/><em>Purposeful protection.</em></>} desc="Security services grounded in training, service quality, and a focus on client satisfaction."/><section className="section"><div className="container service-layout"><div className="service-main"><div className="service-icon"><ShieldCheck size={36}/></div><div className="eyebrow"><span/> SERVICES OFFERED</div><h2>Posted / Premises Guard</h2><p>All deployed personnel have undergone actual security training to support quality service, with emphasis on work attitude enhancement and customer service.</p><div className="service-points"><div><CheckCircle2/> Trained security personnel</div><div><CheckCircle2/> Emphasis on professional work attitude</div><div><CheckCircle2/> Customer-service awareness</div><div><CheckCircle2/> Pre-deployment screening</div></div><Link to="/contact" className="button button-navy">Discuss your requirements <ArrowRight size={18}/></Link></div><aside className="service-aside"><div className="aside-top"><ShieldCheck size={30}/><span>OUR APPROACH</span></div><h3>Prepared people. Reliable process.</h3><p>Our company profile highlights training and pre-deployment screening as key parts of preparing security personnel.</p><div className="aside-item"><Users/><span><b>Training</b><small>Matrix Training Center, accredited by SOSIA and TESDA</small></span></div><div className="aside-item"><ClipboardCheck/><span><b>Screening</b><small>Neuro-psychological, drug, and medical assessments</small></span></div><div className="aside-item"><BadgeCheck/><span><b>Quality</b><small>ISO 9001:2015 certification noted in company profile</small></span></div></aside></div></section><section className="soft-section"><div className="container"><div className="section-heading"><div><div className="eyebrow"><span/> OUR RESOURCES</div><h2>Personnel and <em>equipment.</em></h2></div><p>Our company profile features our security guards and equipment, including the Nissan Navara 2022 and Honda XR 150L.</p></div><div className="resource-grid"><article><div className="resource-illustration"><Users size={58}/></div><h3>Security personnel</h3><p>Personnel trained to provide quality service with a focus on work attitude and customer care.</p></article><article><div className="resource-illustration"><CarFront size={58}/></div><h3>Operational equipment</h3><p>Equipment shown in the company profile includes a Nissan Navara 2022 and Honda XR 150L.</p></article><article><div className="resource-illustration"><Award size={58}/></div><h3>Certifications and permits</h3><p>The company profile includes sections for certificates, clearances, permits, and ISO certificates.</p></article></div></div></section><ContactBanner/></> }
-function Careers() { const groups=[{title:'Security Officer',items:['35 to 40 years old','Minimum of one year experience as Security Supervisor in a manufacturing and commercial establishment','Passed at least 60 units in college','Legitimate license for Security Officer','Must also meet the listed security guard qualifications (items 1 to 4)']},{title:'Security Guard',items:['Filipino citizen','Physically fit, evidenced by drug test and physical examination','Mentally fit, evidenced by neuro-psychiatric examination','At least 5 ft 6 in height','High school graduate / college level','Legitimate license','25 to 35 years old','Minimum of 6 months experience in a manufacturing or commercial establishment']},{title:'Security Driver / Escort',items:['25 to 30 years old','Minimum of two years experience','Driver’s license with restriction code 123','Complete test-drive evaluation','Licensed Protection Agent by SOSIA','Physically fit, evidenced by drug test and physical examination','Mentally fit, evidenced by neuro-psychiatric examination','At least 5 ft 6 in height']}]; return <><PageIntro eyebrow="PERSONNEL QUALIFICATIONS" title={<>Professional standards.<br/><em>Prepared for responsibility.</em></>} desc="The following qualification criteria are transcribed and lightly formatted from the company profile. Please contact the agency to confirm current recruitment requirements."/><section className="section"><div className="container"><div className="careers-note"><ClipboardCheck/><div><b>Before you apply</b><p>These are the criteria printed in the supplied company profile and may not reflect current openings or updated hiring policy.</p></div></div><div className="qualification-grid">{groups.map((g,i)=><article key={g.title} className="qualification-card"><div className="qual-number">0{i+1}</div><div className="qual-heading"><div className="icon-box">{i===0?<Award/>:i===1?<ShieldCheck/>:<CarFront/>}</div><h2>{g.title}</h2></div><ul>{g.items.map(item=><li key={item}><CheckCircle2 size={17}/><span>{item}</span></li>)}</ul><Link to="/contact" className="text-link">Ask about opportunities <ArrowRight size={16}/></Link></article>)}</div></div></section><ContactBanner/></> }
+function About() {
+  return (
+    <>
+      <PageIntro eyebrow="ABOUT STARMATRIX" title={<>A commitment to <em>quality and protection.</em></>} desc="Learn about our purpose, our people, and the standards that guide our security services." />
+      <section className="section">
+        <div className="container about-layout">
+          <div className="about-emblem">
+            <img src="/STARMATRIX%20logo.png" alt="Starmatrix Security Agency emblem" />
+            <div className="iso-card"><BadgeCheck /><span><b>ISO 9001:2015</b><small>Certified</small></span></div>
+          </div>
+          <div className="about-copy">
+            <div className="eyebrow"><span /> OUR BACKGROUND</div>
+            <h2>Part of a wider group.<br /><em>Focused on your safety.</em></h2>
+            <p>Starmatrix Security Agency Inc. is part of the JRS Group of Companies and provides nationwide security services for businesses in manufacturing, food services, logistics, distribution, and other sectors.</p>
+            <p>Our security guards are trained by Matrix Training Center, accredited by SOSIA and TESDA. Pre-deployment screening includes neuro-psychological, drug, and medical assessments through Wellness Diagnostic Center, accredited by the Department of Health.</p>
+            <div className="mini-stats">
+              <div><strong>Nationwide</strong><span>Service coverage</span></div>
+              <div><strong>Quality-first</strong><span>Service commitment</span></div>
+              <div><strong>Screened</strong><span>Before deployment</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="soft-section">
+        <div className="container">
+          <div className="section-heading">
+            <div><div className="eyebrow"><span /> WHAT GUIDES US</div><h2>Our purpose in <em>every post.</em></h2></div>
+            <p>Our vision, mission, and values reflect the standards we aim to bring to every client relationship.</p>
+          </div>
+          <div className="value-grid">
+            {values.map((value) => (
+              <article className="value-card" key={value.title}>
+                <div className="icon-box"><value.icon /></div>
+                <h3>{value.title}</h3>
+                <p>{value.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container">
+          <div className="section-heading">
+            <div><div className="eyebrow"><span /> AFFILIATED COMPANIES</div><h2>Connected through <em>JRS Group.</em></h2></div>
+            <p>Our affiliated businesses are part of the wider JRS Group of Companies.</p>
+          </div>
+          <div className="affiliate-grid">
+            {affiliates.map((company, index) => (
+              <div key={company}><span>{String(index + 1).padStart(2, '0')}</span><b>{company}</b><ChevronRight size={17} /></div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <ContactBanner />
+    </>
+  )
+}
+function Services() {
+  return (
+    <>
+      <PageIntro eyebrow="OUR SERVICES" title={<>Professional presence.<br /><em>Purposeful protection.</em></>} desc="Security services grounded in training, service quality, and a focus on client satisfaction." />
+      <section className="section">
+        <div className="container service-layout">
+          <div className="service-main">
+            <div className="service-icon"><ShieldCheck size={36} /></div>
+            <div className="eyebrow"><span /> SERVICES OFFERED</div>
+            <h2>Posted / Premises Guard</h2>
+            <p>All deployed personnel have undergone actual security training to support quality service, with emphasis on work attitude enhancement and customer service.</p>
+            <div className="service-points">
+              <div><CheckCircle2 /> Trained security personnel</div>
+              <div><CheckCircle2 /> Emphasis on professional work attitude</div>
+              <div><CheckCircle2 /> Customer-service awareness</div>
+              <div><CheckCircle2 /> Pre-deployment screening</div>
+            </div>
+            <Link to="/contact" className="button button-navy">Discuss your requirements <ArrowRight size={18} /></Link>
+          </div>
+          <aside className="service-aside">
+            <div className="aside-top"><ShieldCheck size={30} /><span>OUR APPROACH</span></div>
+            <h3>Prepared people. Reliable process.</h3>
+            <p>Training and pre-deployment screening help prepare our personnel to deliver dependable service.</p>
+            <div className="aside-item"><Users /><span><b>Training</b><small>Matrix Training Center, accredited by SOSIA and TESDA</small></span></div>
+            <div className="aside-item"><ClipboardCheck /><span><b>Screening</b><small>Neuro-psychological, drug, and medical assessments</small></span></div>
+            <div className="aside-item"><BadgeCheck /><span><b>Quality</b><small>Our quality management system is certified to ISO 9001:2015.</small></span></div>
+          </aside>
+        </div>
+      </section>
+      <section className="soft-section">
+        <div className="container">
+          <div className="section-heading">
+            <div><div className="eyebrow"><span /> OUR RESOURCES</div><h2>Personnel and <em>equipment.</em></h2></div>
+            <p>Our operations are supported by trained security personnel and equipment such as the Nissan Navara 2022 and Honda XR 150L.</p>
+          </div>
+          <div className="resource-grid resource-grid-two">
+            <article>
+              <div className="resource-illustration"><Users size={58} /></div>
+              <h3>Security personnel</h3>
+              <p>Personnel trained to provide quality service with a focus on work attitude and customer care.</p>
+            </article>
+            <article>
+              <div className="resource-illustration"><CarFront size={58} /></div>
+              <h3>Operational equipment</h3>
+              <p>Operational equipment includes a Nissan Navara 2022 and a Honda XR 150L.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <ContactBanner />
+    </>
+  )
+}
+function Careers() {
+  const groups = [
+    { title: 'Security Officer', items: ['35 to 40 years old', 'Minimum of one year experience as Security Supervisor in a manufacturing and commercial establishment', 'Passed at least 60 units in college', 'Legitimate license for Security Officer', 'Must also meet the listed security guard qualifications (items 1 to 4)'] },
+    { title: 'Security Guard', items: ['Filipino citizen', 'Physically fit, evidenced by drug test and physical examination', 'Mentally fit, evidenced by neuro-psychiatric examination', 'At least 5 ft 6 in height', 'High school graduate / college level', 'Legitimate license', '25 to 35 years old', 'Minimum of 6 months experience in a manufacturing or commercial establishment'] },
+    { title: 'Security Driver / Escort', items: ['25 to 30 years old', 'Minimum of two years experience', 'Driver’s license with restriction code 123', 'Complete test-drive evaluation', 'Licensed Protection Agent by SOSIA', 'Physically fit, evidenced by drug test and physical examination', 'Mentally fit, evidenced by neuro-psychiatric examination', 'At least 5 ft 6 in height'] },
+  ]
+
+  return (
+    <>
+      <PageIntro eyebrow="PERSONNEL QUALIFICATIONS" title={<>Professional standards.<br /><em>Prepared for responsibility.</em></>} desc="Explore the listed qualifications for Security Officer, Security Guard, and Security Driver / Escort roles." />
+      <section className="section">
+        <div className="container">
+          <div className="careers-note">
+            <ClipboardCheck />
+            <div>
+              <b>Before you apply</b>
+              <p>Review the requirements for your intended role. This website does not list live vacancies or accept online applications.</p>
+            </div>
+          </div>
+          <div className="qualification-grid">
+            {groups.map((group, index) => (
+              <article key={group.title} className="qualification-card">
+                <div className="qual-number">0{index + 1}</div>
+                <div className="qual-heading">
+                  <div className="icon-box">{index === 0 ? <Award /> : index === 1 ? <ShieldCheck /> : <CarFront />}</div>
+                  <h2>{group.title}</h2>
+                </div>
+                <ul>{group.items.map((item) => <li key={item}><CheckCircle2 size={17} /><span>{item}</span></li>)}</ul>
+                <Link to="/contact" className="text-link">View contact details <ArrowRight size={16} /></Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="soft-section">
+        <div className="container">
+          <div className="section-heading">
+            <div><div className="eyebrow"><span /> HOW TO APPLY</div><h2>Start with the <em>role requirements.</em></h2></div>
+            <p>The website provides role qualifications and office location details. It does not publish an online application or document-submission process.</p>
+          </div>
+          <div className="value-grid how-to-apply">
+            <article className="value-card">
+              <div className="qual-number">01</div>
+              <h3>Choose a role</h3>
+              <p>Review the Security Officer, Security Guard, and Security Driver / Escort qualifications above.</p>
+            </article>
+            <article className="value-card">
+              <div className="qual-number">02</div>
+              <h3>Check the requirements</h3>
+              <p>Compare the listed education, experience, fitness, and licensing requirements with your own qualifications.</p>
+            </article>
+            <article className="value-card">
+              <div className="qual-number">03</div>
+              <h3>Find our office</h3>
+              <p>Use the Contact page for the office address and directions when making an in-person inquiry.</p>
+              <Link to="/contact" className="text-link">View contact details <ArrowRight size={16} /></Link>
+            </article>
+          </div>
+        </div>
+      </section>
+      <ContactBanner />
+    </>
+  )
+}
 function ContactBanner() { return <section className="contact-banner"><div className="container contact-banner-inner"><div><div className="eyebrow eyebrow-light"><span/> LET’S TALK SECURITY</div><h2>Let’s build a safer<br/><em>place to work.</em></h2><p>Talk with our team about your security service requirements.</p></div><Link to="/contact" className="button button-gold">Contact Starmatrix <ArrowRight size={18}/></Link></div></section> }
-function Contact() { return <><PageIntro eyebrow="CONTACT US" title={<>Contact <em>Starmatrix.</em></>} desc="Find our office location and learn where our security services are available."/><section className="section"><div className="container contact-layout contact-details-only"><div className="contact-info"><div className="eyebrow"><span/> REACH OUR TEAM</div><h2>Visit our office for <em>assistance.</em></h2><p>For inquiries, visit Starmatrix Security Agency Inc. at the address below.</p><div className="contact-detail"><span><MapPin/></span><div><b>Office address</b><p>Block 1 Lot 18 Commonwealth Ave., Jordan Plains III, Brgy. Pasong Putik Proper, Novaliches, Quezon City.</p></div></div><div className="contact-detail"><span><Clock3/></span><div><b>Service coverage</b><p>Security services for clients nationwide.</p></div></div></div></div></section></> }
+function Contact() {
+  return (
+    <>
+      <PageIntro eyebrow="CONTACT US" title={<>Contact <em>Starmatrix.</em></>} desc="Find our office location and learn where our security services are available." />
+      <section className="section">
+        <div className="container contact-layout contact-details-only">
+          <div className="contact-info">
+            <div className="eyebrow"><span /> REACH OUR TEAM</div>
+            <h2>Visit our office for <em>assistance.</em></h2>
+            <p>For inquiries, visit Starmatrix Security Agency Inc. at the address below.</p>
+            <div className="contact-detail">
+              <span><MapPin /></span>
+              <div>
+                <b>Office address</b>
+                <p>{CONTACT.address}</p>
+                <a className="text-link" href={getDirectionsUrl()} target="_blank" rel="noopener noreferrer">
+                  Get directions <ArrowRight size={16} />
+                </a>
+              </div>
+            </div>
+            <div className="contact-detail">
+              <span><Globe /></span>
+              <div><b>Service coverage</b><p>Security services for clients nationwide.</p></div>
+            </div>
+            {CONTACT.phone && (
+              <div className="contact-detail">
+                <span><Phone /></span>
+                <div><b>Phone</b><a href={`tel:${CONTACT.phone}`}>{CONTACT.phone}</a></div>
+              </div>
+            )}
+            {CONTACT.email && (
+              <div className="contact-detail">
+                <span><Mail /></span>
+                <div><b>Email</b><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></div>
+              </div>
+            )}
+            {CONTACT.hours && (
+              <div className="contact-detail">
+                <span><Clock3 /></span>
+                <div><b>Office hours</b><p>{CONTACT.hours}</p></div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    })
+  }, [pathname])
+
+  return null
+}
+
+function RouteMetadata() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const metadata = PAGE_META[pathname] ?? {
+      title: 'Page not found | Starmatrix Security Agency Inc.',
+      description: 'The requested page could not be found on the Starmatrix Security Agency Inc. website.',
+    }
+
+    document.title = metadata.title
+
+    let descriptionTag = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    if (!descriptionTag) {
+      descriptionTag = document.createElement('meta')
+      descriptionTag.name = 'description'
+      document.head.appendChild(descriptionTag)
+    }
+    descriptionTag.content = metadata.description
+  }, [pathname])
+
+  return null
+}
+
+function NotFound() {
+  return (
+    <>
+      <PageIntro eyebrow="PAGE NOT FOUND" title={<>That page isn’t <em>on this route.</em></>} desc="The page you are looking for could not be found. Head back home to continue exploring Starmatrix." />
+      <section className="section">
+        <div className="container">
+          <Link to="/" className="button button-navy">Back to home <ArrowRight size={18} /></Link>
+        </div>
+      </section>
+    </>
+  )
+}
+
 export default function App() {
   const mainRef = useRef<HTMLElement | null>(null)
   const location = useLocation()
@@ -136,5 +444,5 @@ export default function App() {
     return () => context.revert()
   }, [location.pathname])
 
-  return <><Header/><main ref={mainRef}><Routes><Route path="/" element={<Home/>}/><Route path="/about" element={<About/>}/><Route path="/services" element={<Services/>}/><Route path="/careers" element={<Careers/>}/><Route path="/contact" element={<Contact/>}/><Route path="*" element={<PageIntro eyebrow="PAGE NOT FOUND" title={<>That page isn’t <em>on this route.</em></>} desc="The page you are looking for may have moved. Head back home to explore Starmatrix."/>}/></Routes></main><Footer/></>
+  return <><ScrollToTop/><RouteMetadata/><Header/><main ref={mainRef}><Routes><Route path="/" element={<Home/>}/><Route path="/about" element={<About/>}/><Route path="/services" element={<Services/>}/><Route path="/careers" element={<Careers/>}/><Route path="/contact" element={<Contact/>}/><Route path="*" element={<NotFound/>}/></Routes></main><Footer/></>
 }
