@@ -69,3 +69,7 @@ body{font-size:1rem;line-height:1.6}
   .nav-link,.nav-cta,.button{font-size:.875rem}
   .footer-bottom{font-size:.75rem;gap:12px;flex-wrap:wrap}
 }
+
+/* Contact page is an information-only destination; no inquiry form. */
+.contact-details-only{grid-template-columns:minmax(0,760px);justify-content:center}
+.contact-details-only .contact-info{max-width:760px;width:100%}
