@@ -38,7 +38,8 @@ export default function App() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
-    if (!mainRef.current) return
+    const root = mainRef.current
+    if (!root) return
 
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
@@ -67,7 +68,7 @@ export default function App() {
         ]
 
         revealGroups.forEach((selector) => {
-          gsap.utils.toArray<HTMLElement>(selector, mainRef.current).forEach((element) => {
+          gsap.utils.toArray<HTMLElement>(selector, root).forEach((element) => {
             gsap.from(element, {
               autoAlpha: 0,
               y: 30,
@@ -82,7 +83,7 @@ export default function App() {
           })
         })
 
-        gsap.utils.toArray<HTMLElement>('.trust-grid > div', mainRef.current).forEach((element, index) => {
+        gsap.utils.toArray<HTMLElement>('.trust-grid > div', root).forEach((element, index) => {
           gsap.from(element, {
             autoAlpha: 0,
             y: 18,
@@ -108,12 +109,7 @@ export default function App() {
           })
         }
 
-        gsap.utils.toArray<HTMLElement>('.nav-cta, .button', mainRef.current).forEach((button) => {
-          button.addEventListener('mouseenter', () => gsap.to(button, { y: -2, duration: 0.2, ease: 'power2.out' }))
-          button.addEventListener('mouseleave', () => gsap.to(button, { y: 0, duration: 0.25, ease: 'power2.out' }))
-        })
-
-        return () => ScrollTrigger.refresh()
+        ScrollTrigger.refresh()
       })
 
       return () => media.revert()
